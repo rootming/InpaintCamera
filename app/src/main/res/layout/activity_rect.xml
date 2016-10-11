@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+   <com.rootming.inpaintcamera.RectImageView
+       android:id="@+id/imageview_rect"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_alignParentLeft="true"
+       android:layout_centerVertical="true" />
+
+   <Button
+       android:text="完成"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/button"
+       android:layout_alignParentBottom="true"
+       android:layout_alignParentEnd="true"
+       android:onClick="popMenuShow" />
+
+</RelativeLayout>
