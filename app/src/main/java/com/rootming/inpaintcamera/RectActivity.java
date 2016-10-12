@@ -24,30 +24,30 @@ import android.widget.PopupMenu;
 
 public class RectActivity extends Activity {
 
-	private Handler mHandler = new Handler();
-	private int photocount, photonum;
-	private RectImageView iv;
-	private Bitmap orgBitmap;
+    private Handler mHandler = new Handler();
+    private int photocount, photonum;
+    private RectImageView iv;
+    private Bitmap orgBitmap;
 
     //rootming
-	private PopupMenu popmenu;
+    private PopupMenu popmenu;
     private Menu menu;
 
-	static {
-    	System.loadLibrary("inpaint");
+    static {
+        System.loadLibrary("inpaint");
     }
 
     public native void ProcImg(int len, String paths, String savepath,int photonum, float prevX, float prevY, float curX, float curY);
-	 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_rect);
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_rect);
 
         popmenu = new PopupMenu(this, findViewById(R.id.button));
         menu = popmenu.getMenu();
         menu.add(Menu.NONE, Menu.FIRST + 1, 0, "确认");
-		menu.add(Menu.NONE, Menu.FIRST + 2, 0, "取消");
+        menu.add(Menu.NONE, Menu.FIRST + 2, 0, "取消");
         popmenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -102,28 +102,28 @@ public class RectActivity extends Activity {
             }
         });
 
-		
-		photocount = getIntent().getIntExtra("photocount", 0);
-		photonum = getIntent().getIntExtra("photonum", 1);
-		
-		iv = (RectImageView) findViewById(R.id.imageview_rect);
-		
-		String path = FileUtil.initPath();
-		orgBitmap = BitmapFactory.decodeFile(path+"/tmp/"+photonum+".jpg");
-		iv.setImageBitmap(orgBitmap);
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("请在照片上拖动以用矩形选择主体部分\n按菜单键结束");
-		builder.setTitle("提示");
-		builder.setPositiveButton("确认", new AlertDialog.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}
-		});
-		builder.create().show();
-	}
-	public void popMenuShow(View v){
+
+        photocount = getIntent().getIntExtra("photocount", 0);
+        photonum = getIntent().getIntExtra("photonum", 1);
+
+        iv = (RectImageView) findViewById(R.id.imageview_rect);
+
+        String path = FileUtil.initPath();
+        orgBitmap = BitmapFactory.decodeFile(path+"/tmp/"+photonum+".jpg");
+        iv.setImageBitmap(orgBitmap);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("请在照片上拖动以用矩形选择主体部分\n按菜单键结束");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new AlertDialog.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+    public void popMenuShow(View v){
         popmenu.show();
     }
 //	@Override
@@ -133,7 +133,7 @@ public class RectActivity extends Activity {
 //		menu.add(Menu.NONE, Menu.FIRST + 2, 0, "取消");
 //		return true;
 //	}
-	
+
 //	@Override
 //	public boolean onOptionsItemSelected(MenuItem item) {
 //		super.onOptionsItemSelected(item);

@@ -44,15 +44,27 @@
 
 using namespace cv;
 
+
+static cv::Mat imageScale(char* file, double scale, int flags)
+{
+    Mat image = imread(file, flags);
+    Size dsize = Size(image.cols * scale, image.rows * scale);
+    Mat image2 = Mat(dsize, CV_32S);
+    cv::resize(image, image2, dsize);
+    return image2;
+}
+
+
 void imagefix(char* orgfile, char* maskfile, char* outfile)
 {
     cv::Mat image, originalImage, inpaintMask;
-
+    double scale = 0.2;
     int halfPatchWidth=4;
     char* imageName = orgfile;
     char* maskName = maskfile;
 
-    originalImage=cv::imread(imageName,CV_LOAD_IMAGE_COLOR);
+    //originalImage=cv::imread(imageName,CV_LOAD_IMAGE_COLOR);
+    originalImage = imageScale(imageName, scale, CV_LOAD_IMAGE_COLOR);
 
     if(!originalImage.data){
         std::cout<<std::endl<<"Error unable to open input image"<<std::endl;
@@ -60,7 +72,8 @@ void imagefix(char* orgfile, char* maskfile, char* outfile)
 
     image = originalImage.clone();
 
-    inpaintMask = cv::imread(maskName,CV_LOAD_IMAGE_GRAYSCALE);
+    //inpaintMask = cv::imread(maskName,CV_LOAD_IMAGE_GRAYSCALE);
+    inpaintMask = imageScale(maskName, scale, CV_LOAD_IMAGE_GRAYSCALE);
     Inpainter i(originalImage, inpaintMask, halfPatchWidth);
     if(i.checkValidInputs() == i.CHECK_VALID){
         i.inpaint();

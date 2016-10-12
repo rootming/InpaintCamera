@@ -17,6 +17,6 @@
        android:layout_alignParentStart="true"
        android:layout_marginStart="306dp"
        android:id="@+id/button"
-       android:onClick="popMenuShow (RectActivity)" />
+       android:onClick="popMenuShow" />
 
 </RelativeLayout>
