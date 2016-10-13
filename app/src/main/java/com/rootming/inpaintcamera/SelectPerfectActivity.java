@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 public class SelectPerfectActivity extends Activity implements OnPageChangeListener {
@@ -41,12 +42,44 @@ public class SelectPerfectActivity extends Activity implements OnPageChangeListe
 	 */
 	private ImageView[] mImageViews;
 
+	//rootming
+	private PopupMenu popmenu;
+	private Menu menu;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_select_perfect);
 		ViewGroup group = (ViewGroup)findViewById(R.id.viewGroup);
 		viewPager = (ViewPager) findViewById(R.id.viewPager);
+
+        popmenu = new PopupMenu(this, findViewById(R.id.button));
+        menu = popmenu.getMenu();
+        menu.add(Menu.NONE, Menu.FIRST + 1, 0, "确认");
+        menu.add(Menu.NONE, Menu.FIRST + 2, 0, "取消");
+        popmenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+           @Override
+           public boolean onMenuItemClick(MenuItem item) {
+               switch (item.getItemId())// 得到被点击的item的itemId
+               {
+                   case Menu.FIRST + 1: // 对应的ID就是在add方法中所设定的Id
+                       Intent intent = new Intent();
+                       intent.putExtra("photocount", photocount);
+                       intent.putExtra("photonum", selected + 1);
+                       intent.setClass(SelectPerfectActivity.this, RectActivity.class);
+                       //startActivityForResult(intent, 0);
+                       startActivity(intent);
+                       break;
+                   case Menu.FIRST + 2:
+                       startActivity(new Intent(SelectPerfectActivity.this,FullscreenActivity.class));
+                       finish();
+                       break;
+               }
+               return true;
+           }
+        });
+
+
 
 		photocount = getIntent().getIntExtra("photocount", 0);
 		if(photocount < 3)
@@ -115,35 +148,37 @@ public class SelectPerfectActivity extends Activity implements OnPageChangeListe
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode == RESULT_OK) finish();
 	}
+    public void popMenuShow(View v){
+        popmenu.show();
+    }
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		super.onCreateOptionsMenu(menu);
+//		menu.add(Menu.NONE, Menu.FIRST + 1, 0, "确认");
+//		menu.add(Menu.NONE, Menu.FIRST + 2, 0, "取消");
+//		return true;
+//	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		menu.add(Menu.NONE, Menu.FIRST + 1, 0, "确认");
-		menu.add(Menu.NONE, Menu.FIRST + 2, 0, "取消");
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		super.onOptionsItemSelected(item);
-		switch (item.getItemId())// 得到被点击的item的itemId
-		{
-			case Menu.FIRST + 1: // 对应的ID就是在add方法中所设定的Id
-				Intent intent = new Intent();
-				intent.putExtra("photocount", photocount);
-				intent.putExtra("photonum", selected + 1);
-				intent.setClass(SelectPerfectActivity.this, RectActivity.class);
-				//startActivityForResult(intent, 0);
-				startActivity(intent);
-				break;
-			case Menu.FIRST + 2:
-				startActivity(new Intent(SelectPerfectActivity.this,FullscreenActivity.class));
-				finish();
-				break;
-		}
-		return true;
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		super.onOptionsItemSelected(item);
+//		switch (item.getItemId())// 得到被点击的item的itemId
+//		{
+//			case Menu.FIRST + 1: // 对应的ID就是在add方法中所设定的Id
+//				Intent intent = new Intent();
+//				intent.putExtra("photocount", photocount);
+//				intent.putExtra("photonum", selected + 1);
+//				intent.setClass(SelectPerfectActivity.this, RectActivity.class);
+//				//startActivityForResult(intent, 0);
+//				startActivity(intent);
+//				break;
+//			case Menu.FIRST + 2:
+//				startActivity(new Intent(SelectPerfectActivity.this,FullscreenActivity.class));
+//				finish();
+//				break;
+//		}
+//		return true;
+//	}
 
 	/**
 	 *

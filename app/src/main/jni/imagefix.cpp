@@ -59,7 +59,7 @@ void imagefix(char* orgfile, char* maskfile, char* outfile)
 {
     cv::Mat image, originalImage, inpaintMask;
     double scale = 0.2;
-    int halfPatchWidth=4;
+    int halfPatchWidth = 8;
     char* imageName = orgfile;
     char* maskName = maskfile;
 
